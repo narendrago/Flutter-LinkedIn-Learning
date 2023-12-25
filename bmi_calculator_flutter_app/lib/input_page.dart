@@ -18,10 +18,8 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Color maleCardColour = kInactiveCardColour;
-  Color femaleCardColour = kInactiveCardColour;
-
   Gender? selectedGender;
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +28,7 @@ class _InputPageState extends State<InputPage> {
           title: const Text('BMI Calculator'),
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: Row(
@@ -69,14 +68,54 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            const Expanded(
+            Expanded(
               child: ReusableCard(
                 colour: kActiveCardColour,
                 cardChild: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Height",
                       style: kLabelTextStyle,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          height.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        const Text(
+                          "cm",
+                          style: kLabelTextStyle,
+                        ), // Slider()
+                      ],
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        activeTrackColor: Colors.white,
+                        inactiveTrackColor: const Color(0xFF8D8E98),
+                        thumbColor: const Color(0xFFEB1555),
+                        overlayColor: const Color(0x29EB1555),
+                        thumbShape: const RoundSliderThumbShape(
+                          enabledThumbRadius: 15.0,
+                        ),
+                        overlayShape: const RoundSliderOverlayShape(
+                          overlayRadius: 30.0,
+                        ),
+                      ),
+                      child: Slider(
+                        value: height.toDouble(),
+                        min: 120.0,
+                        max: 220.0,
+                        onChanged: (double newHeight) {
+                          setState(() {
+                            height = newHeight.round();
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
